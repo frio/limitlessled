@@ -93,23 +93,15 @@ func (bridge *Bridge) Set(bulb, other Bulb) Bulb {
 	temperatureSteps := other.Temperature - bulb.Temperature
 
 	if brightnessSteps < 0 {
-		for i := 0; i > brightnessSteps; i-- {
-			bridge.SendCommand(BRIGHTNESS_DOWN)
-		}
+		Repeat{brightnessSteps}.Times(func() { bridge.SendCommand(BRIGHTNESS_DOWN) })
 	} else {
-		for i := 0; i < brightnessSteps; i++ {
-			bridge.SendCommand(BRIGHTNESS_UP)
-		}
+		Repeat{brightnessSteps}.Times(func() { bridge.SendCommand(BRIGHTNESS_UP) })
 	}
 
 	if temperatureSteps < 0 {
-		for i := 0; i > temperatureSteps; i-- {
-			bridge.SendCommand(WARMER)
-		}
+		Repeat{temperatureSteps}.Times(func() { bridge.SendCommand(WARMER) })
 	} else {
-		for i := 0; i < temperatureSteps; i++ {
-			bridge.SendCommand(COOLER)
-		}
+		Repeat{temperatureSteps}.Times(func() { bridge.SendCommand(COOLER) })
 	}
 
 	return other
